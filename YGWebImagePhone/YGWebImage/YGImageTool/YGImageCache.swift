@@ -50,6 +50,33 @@ class YGImageCache {
     
 }
 
+extension UIImage {
+//    保存图片到缓存
+    func saveImageToYGCache(fileName:String?) {
+        if let imageData = self.pngData(),let filename = fileName {
+            
+            // 2.1 存 cache
+            YGImageCache.imageMemoryCache.setObject(self, forKey: filename.ygImageFileName() as NSString)
+            
+            // 2.2 存本地文件
+            var filePath = YGImageCache.shareInstance().cachaeDocPath as NSString
+            filePath = filePath.appendingPathComponent(filename.ygImageFileName()) as NSString
+            let url = URL.init(fileURLWithPath: filePath as String)
+            
+            do{
+                
+             try  imageData.write(to: url, options: .atomicWrite)
+                
+            }catch{
+                
+                print("写入失败")
+            }
+        }
+    }
+    
+}
+
+
 extension String {
     func ygImageFileName() -> String {
         
