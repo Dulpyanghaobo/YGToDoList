@@ -31,7 +31,11 @@ extension UIImageView
         // 缓存,bitmap在子线程操作;主线程加载图片
         self.urlStr = url
         
-//        let loadOperation = Load
+        let loadOperation = LoadImageOperation()
+        loadOperation.imageView = self
+        loadOperation.urlString = url
+        
+        _ygOperationQueue.addOperation(loadOperation)
         
     }
     
